@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/demos.css">
 </head>
 <body>
   <a class="skip" href="#realizacje">Przejdź do realizacji</a>
@@ -39,6 +40,7 @@
         <a href="#branze">Branże</a>
         <a href="#kompetencje">Kompetencje</a>
         <a href="#kod">Kod i schematy</a>
+        <a href="#demo">Demo HMI i SCADA</a>
         <a href="#jak-pracujemy">Jak pracujemy</a>
         <a href="#kontakt">Kontakt</a>
       </nav>
@@ -120,6 +122,27 @@
             </div>
           </form>
           <div class="fefco__out" id="fefco-out" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <div class="wrap">
+        <h2 class="title">Interaktywne demo: HMI i SCADA</h2>
+        <p class="lead">Wypróbuj, jak wyglądają nasze ekrany. Maszyna i dane są symulowane w przeglądarce — bez połączenia ze sterownikiem ani z instalacją klienta.</p>
+        <div class="demo">
+          <div class="demo__head">
+            <h3>Panel operatora nalewarki (HMI)</h3>
+            <p>Wybierz recepturę, poczekaj na nagrzanie produktu i naciśnij START. Potem zasymuluj usterkę czujnika i skwituj alarm.</p>
+          </div>
+          <div id="hmi-demo"></div>
+        </div>
+        <div class="demo">
+          <div class="demo__head">
+            <h3>SCADA mieszalnika</h3>
+            <p>Trendy z wyborem sygnałów, porównanie dwóch partii, kursor czasu, fazy cyklu, alarmy, raport partii i eksport CSV.</p>
+          </div>
+          <div id="scada-demo"></div>
         </div>
       </div>
     </section>

@@ -1,0 +1,114 @@
+/* Demo HMI i SCADA */
+.demo { margin-top: 48px; }
+.demo:first-of-type { margin-top: 0; }
+.demo__head h3 { color: var(--blue); font-size: 22px; }
+.demo__head p { color: var(--muted); margin: 6px 0 16px; }
+
+/* Panel operatora: ramka urządzenia, pasek statusu, schemat, wartości, przyciski, linia alarmów */
+.hmi { background: #1d232b; border: 10px solid #2c333c; border-radius: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, .25), inset 0 0 0 1px #0d1116; color: #e6edf3; font-family: var(--head); overflow: hidden; }
+.hmi__bar { display: flex; align-items: center; gap: 12px; background: #0f4c81; padding: 10px 16px; font-size: 13px; letter-spacing: .5px; }
+.hmi__title { flex: 1; font-weight: 600; }
+.hmi__mode { background: rgba(255, 255, 255, .15); padding: 4px 10px; border-radius: 3px; }
+.hmi__state { padding: 4px 12px; border-radius: 3px; font-weight: 600; background: #6b7785; }
+.hmi__state[data-status="PRACA"] { background: #2e9d5b; }
+.hmi__state[data-status="GOTOWA"] { background: #3f77a6; }
+.hmi__state[data-status="ALARM"] { background: #c62828; animation: hmi-blink 1s steps(2) infinite; }
+.hmi__state[data-status="NAGRZEWANIE"] { background: #c77c11; }
+@keyframes hmi-blink { 50% { opacity: .55; } }
+.hmi__body { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; padding: 16px; }
+.hmi__mimic { background: #12171d; border: 1px solid #2e3843; border-radius: 6px; padding: 8px; }
+.hmi-mimic { width: 100%; height: auto; display: block; }
+.hmi__step { margin: 4px 6px 2px; font-size: 13px; color: #9fb3c8; }
+.hmi-tank { fill: #2a3540; stroke: #8aa0b5; stroke-width: 2; }
+.hmi-tank-fill { fill: hsl(210 70% 55%); transition: fill .4s; }
+.hmi-tank-label { fill: #fff; font: 600 14px var(--head); }
+.hmi-pipe { fill: #8aa0b5; }
+.hmi-valve { fill: #6b7785; stroke: #c5d3e0; stroke-width: 2; }
+.hmi-valve.is-open { fill: #2fd0c4; }
+.hmi-nozzle { fill: #c5d3e0; }
+.hmi-conveyor { stroke: #4b5967; stroke-width: 8; stroke-linecap: round; }
+.hmi-bottle { fill: rgba(255, 255, 255, .12); stroke: #c5d3e0; stroke-width: 2; }
+.hmi-bottle-fill { fill: #f0a03c; }
+.hmi-pusher { fill: #7f8b97; }
+.hmi-jaw { fill: #5c6b7a; }
+.hmi-lamp { fill: #6b7785; }
+.hmi-lamp[data-status="PRACA"] { fill: #3ddc84; }
+.hmi-lamp[data-status="ALARM"] { fill: #ff4d4d; }
+.hmi-lamp[data-status="GOTOWA"] { fill: #5aa0d8; }
+.hmi-lamp[data-status="NAGRZEWANIE"] { fill: #f0a03c; }
+.hmi__side { display: flex; flex-direction: column; gap: 12px; }
+.hmi__values { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hmi__values div { background: #12171d; border: 1px solid #2e3843; border-radius: 4px; padding: 8px 10px; }
+.hmi__values span { display: block; font-size: 11px; color: #8ea4b9; text-transform: uppercase; letter-spacing: .6px; }
+.hmi__values b { font: 600 18px ui-monospace, Consolas, monospace; color: #7cf0a8; }
+.hmi__values input { width: 100%; background: #0b0f13; border: 1px solid #3a4652; color: #7cf0a8; font: 600 16px ui-monospace, Consolas, monospace; padding: 2px 6px; border-radius: 3px; }
+.hmi__field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8ea4b9; }
+.hmi__field select { background: #0b0f13; color: #e6edf3; border: 1px solid #3a4652; padding: 8px; border-radius: 4px; font: 14px var(--body); }
+.hmi__buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.hmi-btn { font: 600 13px var(--head); letter-spacing: .5px; color: #e6edf3; background: linear-gradient(#3a4652, #2a333d); border: 1px solid #4b5967; border-radius: 5px; padding: 12px 6px; cursor: pointer; }
+.hmi-btn:hover:not(:disabled) { border-color: #9fb3c8; }
+.hmi-btn:disabled { opacity: .4; cursor: not-allowed; }
+.hmi-btn[aria-pressed="true"] { background: linear-gradient(#2a6fa8, #1f5687); border-color: #5aa0d8; }
+.hmi-btn--start { background: linear-gradient(#2e9d5b, #23784a); border-color: #3ddc84; }
+.hmi-btn--stop { background: linear-gradient(#c62828, #9a1f1f); border-color: #ff6b6b; }
+.hmi-btn--ack { background: linear-gradient(#c77c11, #9c610d); border-color: #f0a03c; }
+.hmi__alarms { background: #0b0f13; border-top: 1px solid #2e3843; padding: 10px 16px; min-height: 44px; }
+.hmi__alarms ul { list-style: none; margin: 0; padding: 0; font: 13px ui-monospace, Consolas, monospace; color: #9fb3c8; }
+.hmi__alarms li.is-alarm { color: #ff8a80; }
+.hmi-tools { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; margin-top: 12px; font-size: 14px; color: var(--muted); }
+.hmi-tools label { display: flex; flex-direction: column; gap: 4px; }
+.hmi-tools select { font: 14px var(--body); padding: 8px; border: 1px solid var(--line); border-radius: var(--radius); max-width: 100%; }
+.hmi-tools p { flex: 1; min-width: 240px; margin: 0; }
+
+/* SCADA: menu boczne, pasek narzędzi, wykres trendów, tabela alarmów i raportu */
+.scada { display: grid; grid-template-columns: 180px 1fr; background: #1f262e; color: #e6edf3; border-radius: var(--radius); overflow: hidden; font-family: var(--head); box-shadow: var(--shadow); }
+.scada__nav { background: #2a3440; display: flex; flex-direction: column; padding: 10px 0; }
+.scada__nav button { background: none; border: 0; color: #c5d3e0; text-align: left; padding: 14px 18px; font: 500 14px var(--head); cursor: pointer; border-left: 3px solid transparent; }
+.scada__nav button[aria-pressed="true"] { background: #3f6e9a; color: #fff; border-left-color: var(--teal); }
+.scada__nav .is-alarm { color: #ff8a80; }
+.scada__main { padding: 16px; min-width: 0; }
+.scada__toolbar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: end; margin-bottom: 12px; }
+.scada__toolbar label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #9fb3c8; }
+.scada__toolbar select { background: #fff; color: #222; border: 0; border-radius: 3px; padding: 7px 8px; font: 14px var(--body); max-width: 100%; }
+.scada__csv { margin-left: auto; background: var(--teal); color: #0b2a28; border: 0; border-radius: 3px; padding: 9px 14px; font: 600 13px var(--head); cursor: pointer; }
+.scada__chart { background: #fff; border-radius: 3px; padding: 6px; }
+.scada__chart svg { width: 100%; height: auto; display: block; cursor: crosshair; touch-action: pan-y; }
+.scada-grid { stroke: #e3e6ea; }
+.scada-axis { font-size: 11px; fill: #7f8b97; font-family: var(--body); }
+.scada-phase { fill: #f6f8fa; }
+.scada-phase.is-odd { fill: #eef2f6; }
+.scada-phase-label { font-size: 10.5px; fill: #7f8b97; font-family: var(--head); }
+.scada-line { fill: none; stroke-width: 1.8; stroke-linejoin: round; }
+.scada-line.is-compare { stroke-dasharray: 5 4; opacity: .65; }
+.scada-alarm-line { stroke: #c62828; stroke-width: 1.5; stroke-dasharray: 3 3; }
+.scada-cursor { stroke: #c62828; stroke-width: 1; }
+.scada__readout { font-size: 12.5px; color: #333; padding: 8px 6px 2px; font-family: var(--body); min-height: 2.6em; }
+.scada__signals { border: 0; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px 14px; font-size: 13px; color: #c5d3e0; }
+.scada__signals legend { font-size: 12px; color: #9fb3c8; margin-bottom: 6px; padding: 0; }
+.scada__signals label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.scada__signals i { width: 18px; height: 4px; border-radius: 2px; display: inline-block; }
+.scada__signals small { color: #7f8b97; }
+.scada__note { font-size: 12.5px; color: #9fb3c8; margin: 8px 0 0; }
+.scada__table { width: 100%; border-collapse: collapse; background: #fff; color: #222; font: 14px var(--body); border-radius: 3px; overflow: hidden; }
+.scada__table caption { text-align: left; color: #c5d3e0; padding: 0 0 8px; font: 500 15px var(--head); }
+.scada__table th, .scada__table td { padding: 10px 12px; border-bottom: 1px solid #e3e6ea; text-align: left; }
+.scada__table thead th { background: #eef2f6; font-weight: 600; }
+.scada__table tr.is-alarm td { color: #b3261e; }
+.scada__empty { background: #fff; color: #333; padding: 18px; border-radius: 3px; margin: 0; }
+
+@media (max-width: 960px) {
+  .hmi__body { grid-template-columns: 1fr; }
+  .scada { grid-template-columns: 1fr; }
+  .scada__nav { flex-direction: row; overflow-x: auto; padding: 0; }
+  .scada__nav button { border-left: 0; border-bottom: 3px solid transparent; white-space: nowrap; }
+  .scada__nav button[aria-pressed="true"] { border-bottom-color: var(--teal); }
+}
+@media (max-width: 720px) {
+  .hmi { border-width: 6px; }
+  .hmi__buttons { grid-template-columns: repeat(2, 1fr); }
+  .hmi__bar { flex-wrap: wrap; font-size: 12px; }
+  .scada__csv { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hmi__state[data-status="ALARM"] { animation: none; }
+}

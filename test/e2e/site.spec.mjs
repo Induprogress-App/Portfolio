@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 test('strona ładuje się bez błędów i pokazuje 7 realizacji', async ({ page }) => {
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
-  await page.goto('/');
+  await page.goto('./');
   await expect(page).toHaveTitle(/Dział Aplikacji/);
   await expect(page.locator('#projects .card')).toHaveCount(7);
   await expect(page.locator('#stats .stat')).toHaveCount(4);
@@ -16,7 +16,7 @@ test('strona ładuje się bez błędów i pokazuje 7 realizacji', async ({ page 
 });
 
 test('karty maszyn mają zdjęcie i film producenta, a bez YouTube zostaje zdjęcie', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const videos = page.locator('#projects [data-video]');
   await expect(videos).toHaveCount(7);
   const first = videos.first();
@@ -27,7 +27,7 @@ test('karty maszyn mają zdjęcie i film producenta, a bez YouTube zostaje zdję
 });
 
 test('przycisk podglądu wstrzymuje i wznawia animację', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const toggle = page.locator('#karta-pila-kamien .preview-toggle');
   await expect(toggle).toHaveText('Wstrzymaj podgląd');
   await toggle.click();
@@ -36,7 +36,7 @@ test('przycisk podglądu wstrzymuje i wznawia animację', async ({ page }) => {
 });
 
 test('filtr kategorii zawęża listę', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   await page.getByRole('button', { name: /Linie i instalacje/ }).click();
   await expect(page.locator('#projects .card')).toHaveCount(2);
   await page.getByRole('button', { name: /Maszyny seryjne/ }).click();
@@ -46,7 +46,7 @@ test('filtr kategorii zawęża listę', async ({ page }) => {
 });
 
 test('szczegóły: film, schemat sterowania i zamknięcie usuwa film', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   await page.locator('[data-open="nalewarka"]').first().click();
   const modal = page.locator('#modal');
   await expect(modal).toBeVisible();
@@ -61,14 +61,14 @@ test('szczegóły: film, schemat sterowania i zamknięcie usuwa film', async ({ 
 });
 
 test('link z identyfikatorem otwiera realizację', async ({ page }) => {
-  await page.goto('/#zgrzewarki-workow');
+  await page.goto('./#zgrzewarki-workow');
   await expect(page.locator('#modal')).toBeVisible();
   await expect(page.locator('#modal iframe')).toHaveAttribute('src', /embed\/r3PvceIGd2I/);
   await expect(page.locator('#modal .modal__photo')).toBeVisible();
 });
 
 test('przykłady kodu: zakładki i kod Node.js wczytany z pliku', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const panel = page.locator('#code-panel');
   await expect(panel).toContainText('FUNCTION_BLOCK FB_SensorWatch');
   await page.getByRole('tab', { name: /sekwencja cyklu/ }).click();
@@ -79,7 +79,7 @@ test('przykłady kodu: zakładki i kod Node.js wczytany z pliku', async ({ page 
 });
 
 test('demo FEFCO liczy formatkę i wykrywa za mały arkusz', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const out = page.locator('#fefco-out');
   await expect(out).toContainText('1430 × 500 mm');
   await page.locator('input[name="sheetL"]').fill('1000');
@@ -90,14 +90,14 @@ test('demo FEFCO liczy formatkę i wykrywa za mały arkusz', async ({ page }) =>
 });
 
 test('brak poziomego przewijania strony', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('./');
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
 
 test('menu mobilne otwiera nawigację', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'tylko widok telefonu');
-  await page.goto('/');
+  await page.goto('./');
   await page.getByRole('button', { name: 'Menu' }).click();
   await expect(page.locator('#nav')).toHaveClass(/nav--open/);
   await page.locator('#nav').getByRole('link', { name: 'Kod i schematy' }).click();

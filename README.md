@@ -21,7 +21,7 @@ npm run test:live
 ```
 
 - `npm test` (Node Test Runner): dane realizacji, zdjęcia i filmy, schematy sterowania, kalkulator FEFCO, podświetlanie kodu, wynik buildu bez adresów IP, haseł i e-maili.
-- `npm run test:e2e` (Playwright, desktop i telefon): ładowanie strony, podgląd zdjęcie → film (bez sieci zostaje zdjęcie), filtry, okno szczegółów z filmem i schematem, zakładki kodu, demo FEFCO, menu mobilne, brak poziomego przewijania. YouTube jest w testach blokowany, więc sprawdzamy też zachowanie bez sieci.
+- `npm run test:e2e` (Playwright, desktop i telefon): ładowanie strony, podgląd zdjęcie → film (bez sieci zostaje zdjęcie), filtry, okno szczegółów z filmem i schematem, zakładki kodu, demo FEFCO, menu mobilne, brak poziomego przewijania, demo HMI (interlock, cykl, alarm, kwitowanie) i SCADA (sygnały, kursor, porównanie, alarmy, raport, CSV). YouTube jest w testach blokowany, więc sprawdzamy też zachowanie bez sieci.
 - `npm run test:live` (ręcznie, z siecią): przewija do każdej karty i sprawdza, że film producenta faktycznie gra. Nie działa w CI, żeby publikacja nie zależała od YouTube.
 
 ## Publikacja
@@ -34,6 +34,8 @@ npm run test:live
 - `assets/js/media.js` — podgląd karty: 1 s zdjęcia, potem 15 s filmu, w pętli. Film ładuje się przy zbliżeniu do widoku i zatrzymuje poza nim. Przy ograniczeniu ruchu podgląd startuje ręcznie.
 - `assets/js/schematic.js` — schemat sterowania SVG: poziom nadrzędny → sterownik → sieć → urządzenia.
 - `assets/js/code-samples.js`, `assets/js/fefco.js` — przykłady kodu (Structured Text i Node.js) oraz działający kalkulator formatek FEFCO 201.
+- `assets/js/sim.js` — symulacje bez DOM (testowane w Node.js): nalewarka z sekwencją, interlockami i słowem błędów oraz syntetyczne partie mieszalnika.
+- `assets/js/hmi-demo.js`, `assets/js/scada-demo.js` — interaktywny panel HMI (receptury, START/STOP, tryb ręczny, usterki czujników, kwitowanie) i SCADA (trendy, porównanie partii, kursor czasu, alarmy, raport, eksport CSV).
 
 Zasady treści:
 

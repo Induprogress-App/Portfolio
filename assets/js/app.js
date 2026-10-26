@@ -4,6 +4,8 @@ import { controlSchematic } from './schematic.js';
 import { codeSamples } from './code-samples.js';
 import { fefco201, fitsSheet, blankSvg } from './fefco.js';
 import { highlight } from './highlight.js';
+import { initHmiDemo } from './hmi-demo.js';
+import { initScadaDemo } from './scada-demo.js';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -163,6 +165,8 @@ function init() {
   renderStatic();
   renderCode();
   initFefcoDemo();
+  initHmiDemo($('hmi-demo'));
+  initScadaDemo($('scada-demo'));
 
   $('filters').addEventListener('click', e => {
     const b = e.target.closest('[data-cat]');

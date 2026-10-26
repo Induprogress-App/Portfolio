@@ -7,11 +7,11 @@ test.setTimeout(180_000);
 
 test('każda karta odtwarza film producenta', async ({ page, browserName }) => {
   test.skip(browserName !== 'chromium');
-  await page.goto('/');
+  await page.goto('./');
   await page.addStyleTag({ content: 'html { scroll-behavior: auto !important; }' });
   const cards = page.locator('#projects [data-video]');
+  await expect(cards).toHaveCount(7);
   const count = await cards.count();
-  expect(count).toBe(7);
   for (let i = 0; i < count; i++) {
     const media = cards.nth(i);
     await media.scrollIntoViewIfNeeded();
