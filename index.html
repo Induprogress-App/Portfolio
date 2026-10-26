@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dział Aplikacji | Realizacje automatyki przemysłowej</title>
+  <meta name="description" content="Portfolio działu aplikacji: sterowanie maszyn, PLC, HMI, SCADA, napędy i robotyka. Wybrane realizacje dla maszyn seryjnych, linii produkcyjnych i laboratoriów.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip" href="#realizacje">Przejdź do realizacji</a>
+
+  <div class="topbar">
+    <div class="wrap topbar__in">
+      <p><strong>Dział Aplikacji</strong> – automatyka od projektu do uruchomienia</p>
+      <p class="topbar__meta">PLC · HMI · SCADA · Motion · Robotyka</p>
+    </div>
+  </div>
+
+  <header class="header" id="top">
+    <div class="wrap header__in">
+      <a class="logo" href="#top" aria-label="Dział Aplikacji – strona główna">
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5aa0d8"/><stop offset="1" stop-color="#2d5f8f"/></linearGradient></defs>
+          <path d="M4 14 14 4h6L4 20zM4 26 26 4h6L4 32zM10 36 36 10v6L16 36zM22 36l14-14v6l-8 8z" fill="url(#lg)"/>
+        </svg>
+        <span class="logo__text"><b>indu</b>progress</span>
+        <span class="logo__sub">Dział Aplikacji</span>
+      </a>
+      <button class="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="nav" aria-label="Główna nawigacja">
+        <a href="#realizacje">Realizacje</a>
+        <a href="#branze">Branże</a>
+        <a href="#kompetencje">Kompetencje</a>
+        <a href="#kod">Kod i schematy</a>
+        <a href="#jak-pracujemy">Jak pracujemy</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <svg class="hero__curve" viewBox="0 0 600 400" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M600 0C330 40 170 170 120 400" fill="none" stroke="#2fd0c4" stroke-width="3"/>
+      </svg>
+      <div class="wrap hero__in">
+        <p class="hero__kicker">Portfolio działu aplikacji</p>
+        <h1>Sterujemy maszynami,<br>które pracują na całym świecie.</h1>
+        <p class="hero__lead">Programujemy sterowniki, panele operatorskie, napędy i systemy SCADA — od pojedynczych urządzeń po seryjne maszyny eksportowe.</p>
+        <div class="hero__cta">
+          <a class="btn" href="#realizacje">Zobacz realizacje</a>
+          <a class="btn btn--ghost" href="#kontakt">Porozmawiajmy o projekcie</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Dział w liczbach">
+      <div class="wrap stats__grid" id="stats"></div>
+    </section>
+
+    <section class="section" id="realizacje">
+      <div class="wrap">
+        <h2 class="title">Zrealizowane aplikacje</h2>
+        <p class="lead">Wybrane projekty z ostatnich lat. Na kartach: zdjęcie maszyny, a po chwili fragment filmu producenta. Nazwy klientów pomijamy — opisujemy branżę, zadanie i rozwiązanie.</p>
+        <div class="filters" role="toolbar" aria-label="Filtruj realizacje" id="filters"></div>
+        <div class="cards" id="projects" aria-live="polite"></div>
+        <noscript><p class="lead">Włącz JavaScript, aby zobaczyć listę realizacji.</p></noscript>
+      </div>
+    </section>
+
+    <section class="section section--grey" id="branze">
+      <div class="wrap">
+        <h2 class="title">Branże, w których pracujemy</h2>
+        <p class="lead">Przekrój projektów z naszych repozytoriów — od przemysłu spożywczego po mechanikę sceny.</p>
+        <div class="industries" id="industries"></div>
+      </div>
+    </section>
+
+    <section class="section" id="kompetencje">
+      <div class="wrap">
+        <h2 class="title">Kompetencje</h2>
+        <p class="lead">Cały łańcuch sterowania maszyny w jednym zespole.</p>
+        <div class="products" id="competences"></div>
+        <h3 class="subtitle">Sieci i protokoły</h3>
+        <ul class="protocols" id="protocols"></ul>
+      </div>
+    </section>
+
+    <section class="section section--dark" id="kod">
+      <div class="wrap">
+        <h2 class="title">Kod i schematy sterowania</h2>
+        <p class="lead">Tak wygląda typowa architektura naszych maszyn i kod, który piszemy. Przykłady są uproszczone i napisane od nowa — bez kodu klientów.</p>
+        <figure class="architecture">
+          <div class="schematic-wrap" id="architecture"></div>
+          <figcaption>Typowy schemat: panel i SCADA nad sterownikiem, napędy i wejścia/wyjścia w sieci przemysłowej. Schemat każdej realizacji znajdziesz w jej szczegółach.</figcaption>
+        </figure>
+        <div class="code">
+          <div class="code__tabs" role="tablist" aria-label="Przykłady kodu" id="code-tabs"></div>
+          <div class="code__panel" role="tabpanel" id="code-panel"></div>
+        </div>
+        <div class="fefco">
+          <form class="fefco__form" id="fefco-form" aria-label="Kalkulator formatki FEFCO 201">
+            <h3>Działające demo: formatka FEFCO 201</h3>
+            <p>Liczy go moduł Node.js z zakładki „Node.js · kalkulator formatek”. Zmień wymiary pudełka w milimetrach.</p>
+            <div class="fefco__fields">
+              <label>Długość L<input name="L" type="number" min="1" value="400"></label>
+              <label>Szerokość W<input name="W" type="number" min="1" value="300"></label>
+              <label>Wysokość H<input name="H" type="number" min="1" value="200"></label>
+              <label>Zakładka<input name="glue" type="number" min="1" value="30"></label>
+              <label>Arkusz – długość<input name="sheetL" type="number" min="1" value="1500"></label>
+              <label>Arkusz – szerokość<input name="sheetW" type="number" min="1" value="750"></label>
+            </div>
+          </form>
+          <div class="fefco__out" id="fefco-out" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--grey" id="jak-pracujemy">
+      <div class="wrap">
+        <h2 class="title">Jak pracujemy</h2>
+        <p class="lead">Każdy projekt prowadzimy według tego samego standardu — dzięki temu po latach wiemy, co pracuje u klienta.</p>
+        <ol class="steps" id="process"></ol>
+        <div class="repo">
+          <div class="repo__text">
+            <h3>Wspólny szablon projektu</h3>
+            <p>Każda realizacja startuje z szablonu działu. Program sterownika, panel i parametry napędów są wersjonowane w Git razem z dokumentacją. Seryjne maszyny mają rejestr egzemplarzy z wersją programu i wyposażeniem.</p>
+            <p>Własne narzędzia działu: automatyczne budowanie i testy aplikacji PLC oraz asystenci AI do środowisk PLC i HMI.</p>
+          </div>
+          <ul class="tree" id="repo" aria-label="Struktura repozytorium projektu"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="kontakt">
+      <div class="wrap cta__in">
+        <div>
+          <h2>Masz maszynę do zautomatyzowania?</h2>
+          <p>Opisz zadanie — dobierzemy sterowanie, napędy i zaproponujemy zakres aplikacji.</p>
+        </div>
+        <a class="btn btn--light" href="https://induprogress.pl/kontakt/" rel="noopener">Skontaktuj się z nami</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div>
+        <h4>Dział Aplikacji</h4>
+        <p>Programowanie sterowników, paneli operatorskich i systemów SCADA. Uruchomienia, serwis i rozwój aplikacji maszyn.</p>
+      </div>
+      <div>
+        <h4>Realizacje</h4>
+        <ul class="footer__links" id="footer-projects"></ul>
+      </div>
+      <div>
+        <h4>Na stronie</h4>
+        <ul class="footer__links">
+          <li><a href="#branze">Branże</a></li>
+          <li><a href="#kompetencje">Kompetencje</a></li>
+          <li><a href="#jak-pracujemy">Jak pracujemy</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Uwaga o materiałach</h4>
+        <p>Zdjęcia i filmy maszyn pochodzą od ich producentów i mają charakter poglądowy. Nie publikujemy danych klientów, lokalizacji ani dostępu serwisowego.</p>
+      </div>
+    </div>
+    <div class="footer__bar">
+      <div class="wrap"><p>© <span id="year"></span> Dział Aplikacji</p><a href="#top">Do góry ↑</a></div>
+    </div>
+  </footer>
+
+  <dialog class="modal" id="modal" aria-labelledby="modal-title">
+    <div class="modal__body" id="modal-body"></div>
+  </dialog>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
