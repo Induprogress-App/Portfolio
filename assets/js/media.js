@@ -2,7 +2,6 @@
 // Film ładuje się dopiero przy zbliżeniu karty do widoku. Ukryta karta i karta przeglądarki w tle wstrzymują film.
 const PHOTO_MS = 1000;
 const VIDEO_MS = 15000;
-const GALLERY_MS = 4000;
 
 let youtube;
 export function loadYouTube() {
@@ -20,7 +19,8 @@ export function loadYouTube() {
 
 function videoPreview(media, toggle, reduced) {
   const { id, start } = JSON.parse(media.dataset.video);
-  let player, loading = false, near = false, visible = false, paused = reduced, playing = false;
+  // ready: metody odtwarzacza (seekTo, playVideo) są dostępne dopiero po onReady.
+  let player, ready = false, loading = false, near = false, visible = false, paused = reduced, playing = false;
   let photoTimer, videoTimer, retryTimer, remaining = VIDEO_MS, startedAt = 0;
   const active = () => visible && !paused && !document.hidden;
 
@@ -40,8 +40,8 @@ function videoPreview(media, toggle, reduced) {
     clearTimeout(photoTimer);
     remaining = VIDEO_MS;
     media.dataset.preview = 'photo';
-    if (!active()) { player?.pauseVideo?.(); return; }
-    if (player) { player.seekTo(start, true); player.playVideo(); } else prepare();
+    if (!active()) { if (ready) player.pauseVideo(); return; }
+    if (ready) { player.seekTo(start, true); player.playVideo(); } else prepare();
     photoTimer = setTimeout(() => {
       if (!active()) return;
       media.dataset.preview = 'video';
@@ -53,7 +53,7 @@ function videoPreview(media, toggle, reduced) {
     stopClock();
     player?.destroy?.();
     player = undefined;
-    loading = playing = false;
+    loading = playing = ready = false;
     media.dataset.preview = 'photo';
     clearTimeout(retryTimer);
     retryTimer = setTimeout(() => { if (near && !paused) prepare(); }, 5000);
@@ -72,6 +72,7 @@ function videoPreview(media, toggle, reduced) {
         playerVars: { autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, disablekb: 1, start, origin: location.origin },
         events: {
           onReady: e => {
+            ready = true;
             const frame = e.target.getIframe();
             frame.tabIndex = -1;
             frame.title = 'Film poglądowy producenta: maszyna w działaniu';
@@ -82,7 +83,14 @@ function videoPreview(media, toggle, reduced) {
           onStateChange: e => {
             if (e.data === 1) { playing = true; if (!active()) { player.pauseVideo(); return; } runClock(); }
             else if (e.data === 0) { playing = false; cycle(); }
-            else if (e.data === 2 || e.data === 3) { playing = false; stopClock(); }
+            else if (e.data === 2 || e.data === 3) {
+              playing = false;
+              stopClock();
+              // Pauza, której nie zleciliśmy (np. przeglądarka), przy widocznej karcie: wznawiamy.
+              if (e.data === 2 && active()) setTimeout(() => { if (active() && ready) player.playVideo(); }, 300);
+            }
+            // Stan dla testów i diagnostyki: czy film faktycznie gra.
+            media.dataset.playing = String(playing);
           },
           onError: failed
         }
@@ -110,32 +118,13 @@ function videoPreview(media, toggle, reduced) {
   };
 }
 
-function galleryPreview(media, toggle, reduced) {
-  const slides = [...media.querySelectorAll('img')];
-  let i = 0, timer, visible = false, paused = reduced;
-  const show = n => slides.forEach((s, k) => s.classList.toggle('is-active', k === n));
-  const tick = () => { i = (i + 1) % slides.length; show(i); };
-  const update = () => {
-    clearInterval(timer);
-    if (visible && !paused && !document.hidden) timer = setInterval(tick, GALLERY_MS);
-  };
-  const label = () => { toggle.textContent = paused ? 'Odtwórz podgląd' : 'Wstrzymaj podgląd'; toggle.setAttribute('aria-pressed', String(!paused)); };
-  show(0);
-  label();
-  toggle.addEventListener('click', () => { paused = !paused; label(); update(); });
-  const seen$ = new IntersectionObserver(([e]) => { visible = e.isIntersecting; update(); }, { threshold: 0.35 });
-  seen$.observe(media);
-  document.addEventListener('visibilitychange', update);
-  return () => { clearInterval(timer); seen$.disconnect(); document.removeEventListener('visibilitychange', update); };
-}
-
 /** Uruchamia podglądy w kartach. Zwraca funkcję sprzątającą (wywoływaną przy zmianie filtra). */
 export function initPreviews(root) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const disposers = [];
-  for (const media of root.querySelectorAll('[data-video], [data-gallery]')) {
+  for (const media of root.querySelectorAll('[data-video]')) {
     const toggle = media.closest('.card').querySelector('.preview-toggle');
-    disposers.push(media.dataset.video ? videoPreview(media, toggle, reduced) : galleryPreview(media, toggle, reduced));
+    disposers.push(videoPreview(media, toggle, reduced));
   }
   return () => disposers.forEach(d => d());
 }

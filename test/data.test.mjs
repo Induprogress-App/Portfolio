@@ -23,17 +23,16 @@ test('każda realizacja ma komplet treści i unikalne id', () => {
   }
 });
 
-test('każda maszyna ma zdjęcie oraz film albo galerię producenta', () => {
+test('każda realizacja ma zdjęcie i film producenta maszyny', () => {
+  const videos = new Set();
   for (const { id, media } of projects) {
     assert.ok(media.photo && media.alt, `${id}: brak zdjęcia lub opisu`);
-    if (media.screen) continue; // aplikacje software pokazują prawdziwy zrzut ekranu
-    assert.ok(media.video || media.gallery?.length, `${id}: brak filmu i galerii`);
-    if (media.video) {
-      assert.match(media.video.id, /^[\w-]{11}$/, `${id}: niepoprawne id filmu`);
-      assert.ok(Number.isInteger(media.video.start) && media.video.start >= 0, `${id}: niepoprawny start`);
-    }
+    assert.ok(media.video, `${id}: brak filmu producenta — wybierz inne repozytorium`);
+    assert.match(media.video.id, /^[\w-]{11}$/, `${id}: niepoprawne id filmu`);
+    assert.ok(Number.isInteger(media.video.start) && media.video.start >= 0, `${id}: niepoprawny start`);
+    assert.ok(!videos.has(media.video.id), `${id}: film użyty dwa razy`);
+    videos.add(media.video.id);
   }
-  assert.ok(projects.filter(p => p.media.video).length >= 5, 'co najmniej 5 realizacji z filmem');
 });
 
 test('każda realizacja ma schemat sterowania', () => {
@@ -50,7 +49,7 @@ test('każda kategoria filtra ma co najmniej jedną realizację', () => {
 
 test('wszystkie obrazy istnieją lokalnie', () => {
   const images = [
-    ...projects.flatMap(p => [p.media.photo, ...(p.media.gallery || []).map(g => g.src)]),
+    ...projects.map(p => p.media.photo),
     ...competences.map(c => c.image),
     ...protocols.map(p => p.src)
   ];

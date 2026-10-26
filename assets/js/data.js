@@ -8,10 +8,10 @@ export const stats = [
   { value: '17', label: 'krajów, do których trafiły nasze maszyny seryjne' }
 ];
 
-export const categories = ['Wszystkie', 'Maszyny seryjne', 'Linie i instalacje', 'SCADA i HMI'];
+export const categories = ['Wszystkie', 'Maszyny seryjne', 'Linie i instalacje'];
 
 // media.video: film producenta maszyny (YouTube), start = początek 15-sekundowego fragmentu w podglądzie karty.
-// media.gallery: zdjęcia producenta, gdy nie ma filmu. Software (SCADA, panel) pokazuje prawdziwe zrzuty ekranu.
+// Projekty bez zdjęć i filmów producenta nie trafiają na listę — wybieramy wtedy inne repozytorium.
 // control: schemat sterowania rysowany w oknie szczegółów (poziom nadrzędny → sterownik → urządzenia wykonawcze).
 export const projects = [
   {
@@ -37,31 +37,7 @@ export const projects = [
       field: ['Serwonapędy osi', 'Falowniki', 'Moduły I/O', 'Enkoder', 'Czujnik tarczy', 'Pilot radiowy']
     }
   },
-  {
-    id: 'pila-twist',
-    title: 'Piła mostowa z obrotowym suportem',
-    category: 'Maszyny seryjne',
-    sector: 'Producent maszyn do obróbki kamienia',
-    media: {
-      photo: 'assets/img/projects/pila-twist.jpg',
-      alt: 'Piła mostowa do kamienia z panelem dotykowym przy belce',
-      gallery: [
-        { src: 'assets/img/projects/pila-twist-glowica.jpg', alt: 'Suport piły obrócony do cięcia pod kątem' }
-      ]
-    },
-    summary: 'Piła z suportem obracanym od 0° do 90°. Osie X, Y i Z pracują na falownikach, a panel prowadzi automatyczne cięcie pasów.',
-    facts: [['3', 'osie na falownikach'], ['0–90°', 'obrót suportu'], ['3 × 3 m', 'pole robocze']],
-    challenge: 'Maszyna miała ciąć płyty wzdłuż i w poprzek bez przekładania materiału, a operator miał widzieć kąt suportu i pozycje osi.',
-    solution: 'Program PLC pozycjonuje osie X, Y i Z na falownikach i steruje obrotem suportu. Panel dotykowy pokazuje kąt suportu i ruch osi oraz uruchamia automatyczne cięcie wielu pasów. Nastawy każdego falownika są zapisane w repozytorium projektu.',
-    scope: ['Program PLC', 'Panel dotykowy', 'Pozycjonowanie osi na falownikach', 'Parametry napędów w repozytorium'],
-    tech: ['PLC', 'HMI', 'Falowniki', 'Pneumatyka'],
-    control: {
-      top: ['Panel dotykowy', 'Parametry w repozytorium'],
-      plc: 'PLC',
-      bus: 'Sieć napędów',
-      field: ['Falownik osi X', 'Falownik osi Y', 'Falownik osi Z', 'Napęd tarczy', 'Obrót suportu']
-    }
-  },
+
   {
     id: 'zgrzewarki-workow',
     title: 'Zgrzewarki do produkcji worków foliowych',
@@ -198,52 +174,6 @@ export const projects = [
       plc: 'PLC CODESYS',
       bus: 'Sieć napędów i I/O',
       field: ['Pchacze (serwo)', 'Podajniki krokowe (serwo)', 'Pozycjonowanie (serwo)', 'Chwytak robota (serwo)', 'Przenośniki (falowniki)']
-    }
-  },
-  {
-    id: 'scada-mieszalnik',
-    title: 'SCADA instalacji mieszania',
-    category: 'SCADA i HMI',
-    sector: 'Instalacja mieszania przemysłowego',
-    media: {
-      photo: 'assets/img/projects/scada-mieszalnik.jpg',
-      alt: 'Ekran trendów SCADA z wyborem sygnałów procesu mieszania',
-      screen: true
-    },
-    summary: 'Trendy, raporty partii, alarmy i serwer receptur dla mieszalnika — dane z produkcji w jednym miejscu.',
-    facts: [['12', 'sygnałów na trendach'], ['24 h', 'raport zmianowy'], ['SQL', 'baza historii']],
-    challenge: 'Przebiegi temperatur, obrotów i prądu trzeba było porównywać dla konkretnych zleceń i partii.',
-    solution: 'System SCADA zapisuje dane w bazie SQL Server. Operator filtruje maszynę, zlecenie i partię, włącza wybrane sygnały i widzi kroki cyklu na wykresie. Do tego raport dobowy, alarmy i serwer FTP receptur.',
-    scope: ['Wizualizacja SCADA', 'Historia danych w SQL Server', 'Raporty partii i dobowe', 'Zdalny dostęp przez VPN'],
-    tech: ['SCADA', 'SQL Server', 'FTP', 'VPN'],
-    control: {
-      top: ['Stanowisko SCADA', 'SQL Server', 'Serwer FTP receptur', 'Dostęp VPN'],
-      plc: 'PLC mieszalnika',
-      bus: 'Ethernet',
-      field: ['Temperatury', 'Obroty i prąd', 'Stempel', 'Klapy', 'Łożyska i olej']
-    }
-  },
-  {
-    id: 'panel-fefco',
-    title: 'Panel operatora w Node.js do formatek kartonowych',
-    category: 'SCADA i HMI',
-    sector: 'Producent maszyn do opakowań kartonowych',
-    media: {
-      photo: 'assets/img/projects/panel-fefco.jpg',
-      alt: 'Ekran panelu FEFCO z wymiarami pudełka i rysunkiem formatki',
-      screen: true
-    },
-    summary: 'Operator wpisuje wymiary pudełka, a panel sam wylicza formatkę FEFCO i rysuje rozkrój.',
-    facts: [['4', 'ekrany aplikacji'], ['SVG', 'rysunek rozkroju'], ['i18n', 'import i eksport tekstów']],
-    challenge: 'Operator maszyny musi szybko przejść od wymiarów pudełka do wymiarów formatki i nastaw maszyny.',
-    solution: 'Aplikacja w Node-RED liczy formatkę FEFCO 201 (długość = zakładka klejowa + 2L + 2W, szerokość = H + W), sprawdza ją względem formatki wejściowej i rysuje rozkrój. Receptury z wymiarami i grafikami zapisuje w SQLite. Przyciski Ustaw maszynę i Start są blokowane, dopóki dane są błędne.',
-    scope: ['Panel operatorski w przeglądarce', 'Kalkulator formatek FEFCO', 'Receptury w SQLite', 'Wielojęzyczny interfejs'],
-    tech: ['Node.js', 'Node-RED', 'SQLite', 'SVG'],
-    control: {
-      top: ['Przeglądarka / panel dotykowy'],
-      plc: 'Node-RED (Node.js)',
-      bus: 'Logika flow',
-      field: ['Kalkulator FEFCO', 'Receptury SQLite', 'Rysunek SVG', 'Blokady Start / Ustaw maszynę']
     }
   }
 ];

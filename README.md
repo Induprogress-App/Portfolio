@@ -17,10 +17,12 @@ Podgląd: http://127.0.0.1:4173. Wersja produkcyjna: `npm run build`, podgląd `
 npm test
 npx playwright install chromium
 npm run test:e2e
+npm run test:live
 ```
 
 - `npm test` (Node Test Runner): dane realizacji, zdjęcia i filmy, schematy sterowania, kalkulator FEFCO, podświetlanie kodu, wynik buildu bez adresów IP, haseł i e-maili.
-- `npm run test:e2e` (Playwright, desktop i telefon): ładowanie strony, podgląd zdjęcie → film, filtry, okno szczegółów z filmem i schematem, zakładki kodu, demo FEFCO, menu mobilne, brak poziomego przewijania. YouTube jest w testach blokowany, więc sprawdzamy też zachowanie bez sieci.
+- `npm run test:e2e` (Playwright, desktop i telefon): ładowanie strony, podgląd zdjęcie → film (bez sieci zostaje zdjęcie), filtry, okno szczegółów z filmem i schematem, zakładki kodu, demo FEFCO, menu mobilne, brak poziomego przewijania. YouTube jest w testach blokowany, więc sprawdzamy też zachowanie bez sieci.
+- `npm run test:live` (ręcznie, z siecią): przewija do każdej karty i sprawdza, że film producenta faktycznie gra. Nie działa w CI, żeby publikacja nie zależała od YouTube.
 
 ## Publikacja
 
@@ -28,7 +30,7 @@ npm run test:e2e
 
 ## Treść
 
-- `assets/js/data.js` — liczby, 10 realizacji, branże, kompetencje, protokoły, proces pracy. Każda realizacja ma `media` (zdjęcie + film producenta albo galeria; dla aplikacji software prawdziwy zrzut ekranu) i `control` (schemat sterowania).
+- `assets/js/data.js` — liczby, 7 realizacji, branże, kompetencje, protokoły, proces pracy. Każda realizacja ma `media` (zdjęcie i film producenta maszyny) oraz `control` (schemat sterowania).
 - `assets/js/media.js` — podgląd karty: 1 s zdjęcia, potem 15 s filmu, w pętli. Film ładuje się przy zbliżeniu do widoku i zatrzymuje poza nim. Przy ograniczeniu ruchu podgląd startuje ręcznie.
 - `assets/js/schematic.js` — schemat sterowania SVG: poziom nadrzędny → sterownik → sieć → urządzenia.
 - `assets/js/code-samples.js`, `assets/js/fefco.js` — przykłady kodu (Structured Text i Node.js) oraz działający kalkulator formatek FEFCO 201.
@@ -38,4 +40,4 @@ Zasady treści:
 - bez nazw klientów, użytkowników końcowych, lokalizacji i autorów; zamiast nich branża, np. „Producent maszyn do obróbki kamienia”,
 - bez haseł, adresów IP i danych zdalnego dostępu (README projektów je zawierają — nie kopiować),
 - liczby i funkcje tylko takie, które wynikają z repozytoriów projektów,
-- zdjęcia i filmy tylko od producenta maszyny; gdy producent ich nie ma, wybieramy inny projekt. Źródła są w prywatnym `.local/zrodla-mediow.md` (poza Git, bo zawiera nazwy firm).
+- każda realizacja ma zdjęcie i film producenta maszyny; gdy producent ich nie ma, wybieramy inny projekt (test `data.test.mjs` to pilnuje). Źródła są w prywatnym `.local/zrodla-mediow.md` (poza Git, bo zawiera nazwy firm).

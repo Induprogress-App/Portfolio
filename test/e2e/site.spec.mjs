@@ -5,12 +5,12 @@ test.beforeEach(async ({ page }) => {
   await page.route(/youtube(-nocookie)?\.com|ytimg\.com/, route => route.abort());
 });
 
-test('strona ładuje się bez błędów i pokazuje 10 realizacji', async ({ page }) => {
+test('strona ładuje się bez błędów i pokazuje 7 realizacji', async ({ page }) => {
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
   await page.goto('/');
   await expect(page).toHaveTitle(/Dział Aplikacji/);
-  await expect(page.locator('#projects .card')).toHaveCount(10);
+  await expect(page.locator('#projects .card')).toHaveCount(7);
   await expect(page.locator('#stats .stat')).toHaveCount(4);
   expect(errors).toEqual([]);
 });
@@ -18,13 +18,12 @@ test('strona ładuje się bez błędów i pokazuje 10 realizacji', async ({ page
 test('karty maszyn mają zdjęcie i film producenta, a bez YouTube zostaje zdjęcie', async ({ page }) => {
   await page.goto('/');
   const videos = page.locator('#projects [data-video]');
-  expect(await videos.count()).toBeGreaterThanOrEqual(5);
+  await expect(videos).toHaveCount(7);
   const first = videos.first();
   await first.scrollIntoViewIfNeeded();
   await expect(first.locator('img')).toBeVisible();
   await page.waitForTimeout(1500);
   await expect(first).toHaveAttribute('data-preview', 'photo');
-  await expect(page.locator('#karta-pila-twist [data-gallery] img')).toHaveCount(2);
 });
 
 test('przycisk podglądu wstrzymuje i wznawia animację', async ({ page }) => {
@@ -38,10 +37,12 @@ test('przycisk podglądu wstrzymuje i wznawia animację', async ({ page }) => {
 
 test('filtr kategorii zawęża listę', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /SCADA i HMI/ }).click();
+  await page.getByRole('button', { name: /Linie i instalacje/ }).click();
   await expect(page.locator('#projects .card')).toHaveCount(2);
+  await page.getByRole('button', { name: /Maszyny seryjne/ }).click();
+  await expect(page.locator('#projects .card')).toHaveCount(5);
   await page.getByRole('button', { name: /Wszystkie/ }).click();
-  await expect(page.locator('#projects .card')).toHaveCount(10);
+  await expect(page.locator('#projects .card')).toHaveCount(7);
 });
 
 test('szczegóły: film, schemat sterowania i zamknięcie usuwa film', async ({ page }) => {
@@ -60,9 +61,10 @@ test('szczegóły: film, schemat sterowania i zamknięcie usuwa film', async ({ 
 });
 
 test('link z identyfikatorem otwiera realizację', async ({ page }) => {
-  await page.goto('/#pila-twist');
+  await page.goto('/#zgrzewarki-workow');
   await expect(page.locator('#modal')).toBeVisible();
-  await expect(page.locator('#modal .modal__gallery img')).toHaveCount(2);
+  await expect(page.locator('#modal iframe')).toHaveAttribute('src', /embed\/r3PvceIGd2I/);
+  await expect(page.locator('#modal .modal__photo')).toBeVisible();
 });
 
 test('przykłady kodu: zakładki i kod Node.js wczytany z pliku', async ({ page }) => {

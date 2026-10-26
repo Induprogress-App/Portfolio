@@ -34,28 +34,13 @@ function renderFilters(active) {
 
 function mediaBlock(p) {
   const m = p.media;
-  const badge = m.video ? 'Film producenta' : m.gallery ? 'Zdjęcia producenta' : 'Zrzut ekranu';
-  if (m.video) {
-    return `<div class="card__media" data-video='${esc(JSON.stringify(m.video))}' data-preview="photo">
+  return `<div class="card__media" data-video='${esc(JSON.stringify(m.video))}' data-preview="photo">
       <img src="${esc(m.photo)}" alt="${esc(m.alt)}" loading="lazy">
-      <span class="card__cat">${esc(p.category)}</span><span class="card__badge">▶ ${badge}</span>
-    </div>`;
-  }
-  if (m.gallery) {
-    const imgs = [{ src: m.photo, alt: m.alt }, ...m.gallery];
-    return `<div class="card__media card__media--gallery" data-gallery>
-      ${imgs.map(i => `<img src="${esc(i.src)}" alt="${esc(i.alt)}" loading="lazy">`).join('')}
-      <span class="card__cat">${esc(p.category)}</span><span class="card__badge">${badge} · ${imgs.length}</span>
-    </div>`;
-  }
-  return `<div class="card__media${m.screen ? ' card__media--screen' : ''}">
-      <img src="${esc(m.photo)}" alt="${esc(m.alt)}" loading="lazy">
-      <span class="card__cat">${esc(p.category)}</span><span class="card__badge">${badge}</span>
+      <span class="card__cat">${esc(p.category)}</span><span class="card__badge">▶ Film producenta</span>
     </div>`;
 }
 
 function card(p) {
-  const animated = p.media.video || p.media.gallery;
   return `<article class="card" id="karta-${esc(p.id)}">
     ${mediaBlock(p)}
     <div class="card__body">
@@ -65,7 +50,7 @@ function card(p) {
       <ul class="tags">${p.tech.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
       <div class="card__actions">
         <button type="button" class="btn btn--sm" data-open="${esc(p.id)}">Zobacz więcej</button>
-        ${animated ? '<button type="button" class="preview-toggle"></button>' : ''}
+        <button type="button" class="preview-toggle"></button>
       </div>
     </div>
   </article>`;
@@ -79,15 +64,11 @@ function renderProjects(category) {
 }
 
 function modalMedia(p) {
-  const m = p.media;
-  if (m.video) {
-    const src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(m.video.id)}?start=${m.video.start}&rel=0&modestbranding=1`;
-    return `<div class="modal__video"><iframe src="${esc(src)}" title="Film poglądowy producenta: ${esc(p.title)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
-      <p class="media-note">Film poglądowy producenta maszyny. Pokazuje maszynę tego typu, nie konkretną instalację klienta.</p>`;
-  }
-  const imgs = [{ src: m.photo, alt: m.alt }, ...(m.gallery || [])];
-  return `<div class="modal__gallery">${imgs.map(i => `<img src="${esc(i.src)}" alt="${esc(i.alt)}">`).join('')}</div>
-    <p class="media-note">${m.screen ? 'Rzeczywisty ekran aplikacji.' : 'Zdjęcia poglądowe producenta maszyny.'}</p>`;
+  const { id, start } = p.media.video;
+  const src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?start=${start}&rel=0&modestbranding=1`;
+  return `<div class="modal__video"><iframe src="${esc(src)}" title="Film poglądowy producenta: ${esc(p.title)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+    <img class="modal__photo" src="${esc(p.media.photo)}" alt="${esc(p.media.alt)}">
+    <p class="media-note">Zdjęcie i film poglądowe producenta maszyny. Pokazują maszynę tego typu, nie konkretną instalację klienta.</p>`;
 }
 
 function openProject(id) {

@@ -227,15 +227,12 @@ h1, h2, h3, h4 { font-family: var(--head); font-weight: 400; line-height: 1.25; 
 }
 
 /* Podgląd maszyn: zdjęcie → film producenta (jak w portfolio osobistym) */
-.card__media > div, .card__media > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; pointer-events: none; transition: opacity .35s; background: #0f1419; }
-.card__media[data-preview="video"] > iframe { opacity: 1; }
-.card__media > img { transition: opacity .35s; }
+/* Film leży pod zdjęciem i zawsze jest „widoczny” — Chrome wstrzymuje wyciszone filmy z opacity: 0. */
+.card__media > div, .card__media > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; background: #0f1419; z-index: 0; }
+.card__media > img { position: relative; z-index: 1; transition: opacity .35s; }
 .card__media[data-preview="video"] > img { opacity: 0; }
 .card__cat, .card__badge { z-index: 2; }
 .card__badge { position: absolute; right: 8px; top: 8px; background: rgba(10, 14, 18, .72); color: #fff; font: 500 11px/1 var(--head); padding: 6px 9px; border-radius: 3px; }
-.card__media--gallery img { position: absolute; inset: 0; opacity: 0; transition: opacity .8s; }
-.card__media--gallery img.is-active { opacity: 1; }
-.card__media--screen img { object-position: left top; }
 .card__actions { margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
 .card__body .card__actions .btn { margin-top: 0; }
 .preview-toggle { background: none; border: 1px solid var(--line); color: var(--muted); font: 400 12.5px/1 var(--body); padding: 9px 12px; border-radius: var(--radius); cursor: pointer; }
@@ -250,8 +247,7 @@ h1, h2, h3, h4 { font-family: var(--head); font-weight: 400; line-height: 1.25; 
 .modal__media { background: none; min-height: 0; }
 .modal__video { position: relative; aspect-ratio: 16 / 9; background: #0f1419; }
 .modal__video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.modal__gallery { display: grid; gap: 10px; }
-.modal__gallery img { width: 100%; height: auto; max-height: 340px; object-fit: contain; background: var(--grey); }
+.modal__photo { width: 100%; height: auto; max-height: 300px; object-fit: contain; background: var(--grey); margin-top: 10px; }
 .media-note { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
 .modal__content { padding: 0; }
 .modal__content .facts { margin-top: 0; }
